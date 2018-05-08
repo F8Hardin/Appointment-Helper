@@ -5,8 +5,95 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoctorHelper"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Appoinment Helper" Height="720" Width="1280"
+        WindowState="Normal"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Background="Black">
+        <TabControl HorizontalAlignment="Left" Height="680" Margin="0,10,-0.4,0" VerticalAlignment="Top" Width="1280">
+            <TabItem Header="Home" Background="LightYellow" FontSize="15">
+                <Grid Background="LightYellow">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1085*"/>
+                        <ColumnDefinition Width="164*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Margin="-1332,-911,76.2,-100.6">
+                        <Calendar HorizontalAlignment="Left" Margin="171,213,0,0" VerticalAlignment="Top" Height="222" Width="222" RenderTransformOrigin="1400,-2400">
+                            <Calendar.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="-0.005"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Calendar.RenderTransform>
+                        </Calendar>
+                    </Viewbox>
+                    <ListBox x:Name="appointment_box" HorizontalAlignment="Left" Height="548" Margin="702,80,0,0" VerticalAlignment="Top" Width="544" Grid.ColumnSpan="2"/>
+                    <Label Content="Upcoming Appoinments" HorizontalAlignment="Left" Margin="702,5,0,0" VerticalAlignment="Top" Height="75" Width="544" FontSize="49" Grid.ColumnSpan="2"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Doctors" Background="LightBlue" FontSize="15">
+                <Grid Background="LightBlue">
+                    <Button FontSize="20" Content="New Doctor" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="135"/>
+                    <ListView HorizontalAlignment="Left" Height="587" Margin="10,45,0,0" VerticalAlignment="Top" Width="600">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Name" Width="200"/>
+                                <GridViewColumn Header="Office" Width="200"/>
+                                <GridViewColumn Header="Family Member" Width="200"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button FontSize="20" Content="Edit Doctor" HorizontalAlignment="Left" Margin="150,10,0,0" VerticalAlignment="Top" Width="135"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="615,185,0,0" TextWrapping="Wrap" Text="Name: " VerticalAlignment="Top" FontSize="30"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="615,237,0,0" TextWrapping="Wrap" Text="Office:" VerticalAlignment="Top" FontSize="30"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="714,185,0,0" TextWrapping="Wrap" Text="Select a doctor" VerticalAlignment="Top" FontSize="30" Width="554"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="714,237,0,0" TextWrapping="Wrap" Text="Empty" VerticalAlignment="Top" FontSize="30" Width="554"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="615,298,0,0" TextWrapping="Wrap" Text="Family Details:" VerticalAlignment="Top" FontSize="30"/>
+                    <ListBox HorizontalAlignment="Left" Height="289" Margin="615,343,0,0" VerticalAlignment="Top" Width="631"/>
+                    <Button FontSize="20" Content="Sort By Doctor" HorizontalAlignment="Left" Margin="615,80,0,0" VerticalAlignment="Top" Width="150"/>
+                    <Button FontSize="20" Content="Sort By Family" HorizontalAlignment="Left" Margin="615,45,0,0" VerticalAlignment="Top" Width="150"/>
+                    <Button FontSize="20" Content="Delete Doctor" HorizontalAlignment="Left" Margin="290,10,0,0" VerticalAlignment="Top" Width="135"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Appointments" Background="LightCyan" FontSize="15">
+                <Grid Background="LightCyan" Margin="0,0,0.8,-3.4" RenderTransformOrigin="0.74,0.816">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="74*"/>
+                        <ColumnDefinition Width="1193*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Upcoming Appoinments" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" Height="75" Width="557" FontSize="50" Grid.ColumnSpan="2"/>
+                    <Viewbox Grid.Column="1" HorizontalAlignment="Left" Height="59" Margin="484.6,88,0,0" VerticalAlignment="Top" Width="279">
+                        <DatePicker HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Height="26"/>
+                    </Viewbox>
+                    <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="484.6,152,0,0" VerticalAlignment="Top" Width="200" Height="44" FontSize="25"/>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="689.6,152,0,0" TextWrapping="Wrap" Text="Choose a Family Member" VerticalAlignment="Top" Height="44" Width="426" FontSize="25"/>
+                    <ListBox x:Name="appointment_box_copy" HorizontalAlignment="Left" Height="548" Margin="10,83,0,0" VerticalAlignment="Top" Width="544" Grid.ColumnSpan="2"/>
+                    <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="484.6,201,0,0" VerticalAlignment="Top" Width="200" Height="44" FontSize="25"/>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="689.6,201,0,0" TextWrapping="Wrap" Text="Choose a Doctor" VerticalAlignment="Top" Height="44" Width="426" FontSize="25"/>
+                    <ComboBox x:Name="Hour_Box" Grid.Column="1" HorizontalAlignment="Left" Margin="484.6,250,0,0" VerticalAlignment="Top" Width="60" FontSize="25"/>
+                    <ComboBox x:Name="Minute_Box" Grid.Column="1" HorizontalAlignment="Left" Margin="549.6,250,0,0" VerticalAlignment="Top" Width="60" FontSize="25"/>
+                    <CheckBox Content="AM" Grid.Column="1" HorizontalAlignment="Left" Margin="614.6,250,0,0" VerticalAlignment="Top" FontSize="25"/>
+                    <CheckBox Content="PM" Grid.Column="1" HorizontalAlignment="Left" Margin="677.6,250,0,0" VerticalAlignment="Top" FontSize="25"/>
+                    <Button Content="Add Appointment" Grid.Column="1" HorizontalAlignment="Left" Margin="484.6,471,0,0" VerticalAlignment="Top" Width="215" FontSize="25"/>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="484.6,318,0,0" TextWrapping="Wrap" Text="Appoinment Details:" FontSize="25" VerticalAlignment="Top"/>
+                    <TextBox x:Name="Appointment_Notes" Grid.Column="1" HorizontalAlignment="Left" Height="110" Margin="484.6,356,0,0" TextWrapping="Wrap" Text="If there is any other appointment information you would like to remember, you can put it here." VerticalAlignment="Top" Width="340" GotFocus="Notes_Focus"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Family" Background="MediumPurple" FontSize="20">
+                <Grid Background="MediumPurple">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="29*"/>
+                        <ColumnDefinition Width="1219*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Find a Doctor" Background="CornflowerBlue" FontSize="20">
+                <Grid Background="CornflowerBlue">
+                    <WebBrowser x:Name="dr_finder" HorizontalAlignment="Left" Height="621" Margin="10,10,0,0" VerticalAlignment="Top" Width="1254"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

@@ -23,6 +23,37 @@ namespace DoctorHelper
         public MainWindow()
         {
             InitializeComponent();
+            time_box_setup();
+            dr_finder.Navigate("https://doctor.webmd.com/");
+        }
+
+        public void time_box_setup() //set up combo boxes for time
+        {
+            Hour_Box.SelectedIndex = 0;
+            Minute_Box.SelectedIndex = 0;
+
+            Hour_Box.Items.Add("-");
+            Minute_Box.Items.Add("--");
+
+            for (int i = 1; i < 13; i++)
+            {
+                Hour_Box.Items.Add(i);
+            }
+
+            for(int i = 0; i < 60; i++)
+            {
+                if (i < 10)
+                    Minute_Box.Items.Add("0" + i.ToString());
+                else
+                    Minute_Box.Items.Add(i);
+            }
+        }
+
+        public void Notes_Focus(object sender, RoutedEventArgs e) //removes text from appointment_notes textbox when clicked
+        {
+            TextBox tb = (TextBox)sender;
+            tb.Text = string.Empty;
+            tb.GotFocus -= Notes_Focus;
         }
     }
 }
