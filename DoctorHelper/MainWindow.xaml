@@ -41,7 +41,7 @@
                             <GridView>
                                 <GridViewColumn Header="Name" Width="200"/>
                                 <GridViewColumn Header="Office" Width="200"/>
-                                <GridViewColumn Header="Family Member" Width="200"/>
+                                <GridViewColumn Header="Patients" Width="200"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -79,6 +79,7 @@
                     <Button Content="Add Appointment" Grid.Column="1" HorizontalAlignment="Left" Margin="484.6,471,0,0" VerticalAlignment="Top" Width="215" FontSize="25"/>
                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="484.6,318,0,0" TextWrapping="Wrap" Text="Appoinment Details:" FontSize="25" VerticalAlignment="Top"/>
                     <TextBox x:Name="Appointment_Notes" Grid.Column="1" HorizontalAlignment="Left" Height="110" Margin="484.6,356,0,0" TextWrapping="Wrap" Text="If there is any other appointment information you would like to remember, you can put it here." VerticalAlignment="Top" Width="340" GotFocus="Notes_Focus"/>
+                    <Button Content="Select an Appointment to Remove" Grid.Column="1" HorizontalAlignment="Left" Margin="484.6,594,0,0" VerticalAlignment="Top" Width="237" Height="37"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Family" Background="MediumPurple" FontSize="20">
@@ -87,6 +88,63 @@
                         <ColumnDefinition Width="29*"/>
                         <ColumnDefinition Width="1219*"/>
                     </Grid.ColumnDefinitions>
+                    <ListBox x:Name="Family_ListBox" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="621" Margin="10,10,0,0" VerticalAlignment="Top" Width="480">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="Name:" FontSize="15"/>
+                                    <TextBlock Text="{Binding name}" FontSize="25"/>
+
+                                    <TextBlock Text="Medications"  FontSize="15"/>
+                                    <TextBlock Text="{Binding display_meds}" FontSize="25"/>
+
+                                    <TextBlock Text="Doctors"  FontSize="15"/>
+                                    <TextBlock Text="{Binding display_doctors}" FontSize="25"/>
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="465.4,10,0,0" TextWrapping="Wrap" Text="Add a Family Member" VerticalAlignment="Top" Height="48" Width="389" FontSize="35"/>
+                    <TextBox x:Name="fam_name" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="605.4,56,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" FontSize="25"/>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="465.4,63,0,0" TextWrapping="Wrap" Text="Enter Name:" VerticalAlignment="Top" FontSize="25" RenderTransformOrigin="-0.809,-6.982"/>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="465.4,102,0,0" TextWrapping="Wrap" Text="Select Doctors:" VerticalAlignment="Top" FontSize="25"/>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="634.4,118,0,0" TextWrapping="Wrap" Text="(Field not required)" VerticalAlignment="Top" Height="16" Width="88" FontSize="10"/>
+                    <ListView x:Name="doctors_to_select" Grid.Column="1" HorizontalAlignment="Left" Height="135" Margin="465.4,135,0,0" VerticalAlignment="Top" Width="165">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Doctors" Width="165" DisplayMemberBinding="{Binding name}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button Content="Select Doctor" Grid.Column="1" HorizontalAlignment="Left" Margin="465.4,275,0,0" VerticalAlignment="Top" Width="135" Height="40" Click="Select_Doctor_Click"/>
+                    <ListView x:Name="selected_doctors" Grid.Column="1" HorizontalAlignment="Left" Height="135" Margin="635.4,135,0,0" VerticalAlignment="Top" Width="165">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Selected Doctors" Width="165" DisplayMemberBinding="{Binding name}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView x:Name="Meds" Grid.Column="1" HorizontalAlignment="Left" Height="184" Margin="465.4,320,0,0" VerticalAlignment="Top" Width="355">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Medications" Width="155" DisplayMemberBinding="{Binding name}"/>
+                                <GridViewColumn Header="Dosage" Width="100" DisplayMemberBinding="{Binding dosage}"/>
+                                <GridViewColumn Header="Refill Date" Width="100" DisplayMemberBinding="{Binding date}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button Content="Select Family Member to Remove" Grid.Column="1" HorizontalAlignment="Left" Margin="465.4,607,0,0" VerticalAlignment="Top" Width="230" FontSize="15"/>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="825.4,322,0,0" TextWrapping="Wrap" Text="Medication Name:" VerticalAlignment="Top"/>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="825.4,353,0,0" TextWrapping="Wrap" Text="Dosage:" VerticalAlignment="Top"/>
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="825.4,389,0,0" TextWrapping="Wrap" Text="Refill Date:" VerticalAlignment="Top"/>
+                    <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="992.4,325,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="220"/>
+                    <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="901.4,356,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+                    <DatePicker Grid.Column="1" HorizontalAlignment="Left" Margin="924.4,385,0,0" VerticalAlignment="Top"/>
+                    <Button Content="Select Family Member to Edit" Grid.Column="1" HorizontalAlignment="Left" Margin="465.4,578,0,0" VerticalAlignment="Top" Width="200" FontSize="15"/>
+                    <Button Content="Add Medication" Grid.Column="1" HorizontalAlignment="Left" Margin="825.4,425,0,0" VerticalAlignment="Top" Width="184"/>
+                    <Button Content="Add Family Member" Grid.Column="1" HorizontalAlignment="Left" Margin="465.4,509,0,0" VerticalAlignment="Top" Width="185" Click="Add_Family_Click"/>
+                    <Button Content="Remove Medication" Grid.Column="1" HorizontalAlignment="Left" Margin="825.4,460,0,0" VerticalAlignment="Top" Width="184"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Find a Doctor" Background="CornflowerBlue" FontSize="20">
