@@ -10,6 +10,6 @@ namespace DoctorHelper
     {
         public string name { get; set; }
         public string dosage { get; set; }
-        public DateTime date;
+        public string refill_date { get; set; }
     }
 }

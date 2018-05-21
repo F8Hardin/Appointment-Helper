@@ -21,6 +21,7 @@ namespace DoctorHelper
     public partial class MainWindow : Window
     {
         List<Family> members = new List<Family>();
+        List<Medications> new_meds_list = new List<Medications>();
         Family fam;
         Doctors doc;
         Medications meds;
@@ -124,5 +125,36 @@ namespace DoctorHelper
             else
                 return;
         }
+
+        private void Meds_Click(object sender, RoutedEventArgs e)
+        {
+            string med = med_name.Text;
+            string dosage = dosage_textbox.Text;
+            string date = null;
+            Medications new_med = new Medications();
+
+            if (date_selected.SelectedDate.HasValue)
+            {
+                date = date_selected.SelectedDate.Value.ToString("MM/dd/yyyy");
+            }
+            else
+            {
+                date = "__/__/____";
+            }
+
+            MessageBox.Show(date);
+
+            new_med.name = med;
+            new_med.dosage = dosage;
+            new_med.refill_date = date;
+            MessageBox.Show(new_med.refill_date);
+
+            new_meds_list.Add(new_med);
+            Meds.Items.Add(new_med);
+
+            med_name.Text = "";
+            dosage_textbox.Text = "";
+            date_selected.SelectedDate = null;
+        }//adds medications to the display list
     }
 }

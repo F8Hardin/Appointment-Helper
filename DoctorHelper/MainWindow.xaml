@@ -130,7 +130,7 @@
                             <GridView>
                                 <GridViewColumn Header="Medications" Width="155" DisplayMemberBinding="{Binding name}"/>
                                 <GridViewColumn Header="Dosage" Width="100" DisplayMemberBinding="{Binding dosage}"/>
-                                <GridViewColumn Header="Refill Date" Width="100" DisplayMemberBinding="{Binding date}"/>
+                                <GridViewColumn Header="Refill Date" Width="100" DisplayMemberBinding="{Binding refill_date}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -138,13 +138,13 @@
                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="825.4,322,0,0" TextWrapping="Wrap" Text="Medication Name:" VerticalAlignment="Top"/>
                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="825.4,353,0,0" TextWrapping="Wrap" Text="Dosage:" VerticalAlignment="Top"/>
                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="825.4,389,0,0" TextWrapping="Wrap" Text="Refill Date:" VerticalAlignment="Top"/>
-                    <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="992.4,325,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="220"/>
-                    <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="901.4,356,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-                    <DatePicker Grid.Column="1" HorizontalAlignment="Left" Margin="924.4,385,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="med_name" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="992.4,322,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="220"/>
+                    <TextBox x:Name="dosage_textbox" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="900.4,357,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.575,0.02"/>
+                    <DatePicker x:Name="date_selected" Grid.Column="1" HorizontalAlignment="Left" Margin="924.4,391,0,0" VerticalAlignment="Top"/>
                     <Button Content="Select Family Member to Edit" Grid.Column="1" HorizontalAlignment="Left" Margin="465.4,578,0,0" VerticalAlignment="Top" Width="200" FontSize="15"/>
-                    <Button Content="Add Medication" Grid.Column="1" HorizontalAlignment="Left" Margin="825.4,425,0,0" VerticalAlignment="Top" Width="184"/>
+                    <Button Content="Add Medication" Grid.Column="1" HorizontalAlignment="Left" Margin="825.4,431,0,0" VerticalAlignment="Top" Width="184" Click="Meds_Click"/>
                     <Button Content="Add Family Member" Grid.Column="1" HorizontalAlignment="Left" Margin="465.4,509,0,0" VerticalAlignment="Top" Width="185" Click="Add_Family_Click"/>
-                    <Button Content="Remove Medication" Grid.Column="1" HorizontalAlignment="Left" Margin="825.4,460,0,0" VerticalAlignment="Top" Width="184"/>
+                    <Button Content="Remove Medication" Grid.Column="1" HorizontalAlignment="Left" Margin="825.4,466,0,0" VerticalAlignment="Top" Width="184"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Find a Doctor" Background="CornflowerBlue" FontSize="20">
