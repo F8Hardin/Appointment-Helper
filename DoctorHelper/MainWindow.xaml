@@ -41,7 +41,7 @@
                             <GridView>
                                 <GridViewColumn Header="Name" Width="200"/>
                                 <GridViewColumn Header="Office" Width="200"/>
-                                <GridViewColumn Header="Patients" Width="200"/>
+                                <GridViewColumn Header="Phone Number" Width="200"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -52,8 +52,6 @@
                     <TextBlock HorizontalAlignment="Left" Margin="714,237,0,0" TextWrapping="Wrap" Text="Empty" VerticalAlignment="Top" FontSize="30" Width="554"/>
                     <TextBlock HorizontalAlignment="Left" Margin="615,298,0,0" TextWrapping="Wrap" Text="Family Details:" VerticalAlignment="Top" FontSize="30"/>
                     <ListBox HorizontalAlignment="Left" Height="289" Margin="615,343,0,0" VerticalAlignment="Top" Width="631"/>
-                    <Button FontSize="20" Content="Sort By Doctor" HorizontalAlignment="Left" Margin="615,80,0,0" VerticalAlignment="Top" Width="150"/>
-                    <Button FontSize="20" Content="Sort By Family" HorizontalAlignment="Left" Margin="615,45,0,0" VerticalAlignment="Top" Width="150"/>
                     <Button FontSize="20" Content="Delete Doctor" HorizontalAlignment="Left" Margin="290,10,0,0" VerticalAlignment="Top" Width="135"/>
                 </Grid>
             </TabItem>

@@ -12,16 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+
+//files are called doctors.txt, family.txt, and appointments.txt
 
 namespace DoctorHelper
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         List<Family> members = new List<Family>();
         List<Medications> new_meds_list = new List<Medications>();
+
         Family fam;
         Doctors doc;
         Medications meds;
@@ -31,18 +32,20 @@ namespace DoctorHelper
             InitializeComponent();
             time_box_setup();
             dr_finder.Navigate("https://doctor.webmd.com/");
+            create_files();
+            open_family_file();
 
             Doctors doc = new Doctors();
             doc.name = "Who";
             doc.office = "TARDIS";
+            doc.phone = "332-432-5522";
             doctors_to_select.Items.Add(doc);
             Doctors doc2 = new Doctors();
             doc2.name = "Thomas";
-            doc2.office = "Hell";
+            doc2.office = "Office";
+            doc2.phone = "382-323-2331";
             doctors_to_select.Items.Add(doc2);
-            Medications med = new Medications();
-            med.name = "Viagra";
-            Meds.Items.Add(med);
+
         }
 
         public void time_box_setup() //set up combo boxes for time
@@ -113,6 +116,7 @@ namespace DoctorHelper
             Meds.Items.Clear();
             selected_doctors.Items.Clear();
             fam_name.Text = "";
+            save_family_to_file();
         }
 
         private void Select_Doctor_Click(object sender, RoutedEventArgs e) //when clicked, the Doctor from doctors_to_select selected is added to selected_doctors that will be part of that family member's list of doctors
@@ -126,7 +130,7 @@ namespace DoctorHelper
                 return;
         }
 
-        private void Meds_Click(object sender, RoutedEventArgs e)
+        private void Meds_Click(object sender, RoutedEventArgs e) //adds medications to the display list
         {
             string med = med_name.Text;
             string dosage = dosage_textbox.Text;
@@ -142,12 +146,21 @@ namespace DoctorHelper
                 date = "__/__/____";
             }
 
-            MessageBox.Show(date);
+            if(dosage_textbox.Text == "")
+            {
+                new_med.dosage = "~";
+            }
+            else
+            {
+                new_med.dosage = dosage;
+            }
 
+            if (med.Contains(" "))
+            {
+                med.Replace(" ", "_");
+            }
             new_med.name = med;
-            new_med.dosage = dosage;
             new_med.refill_date = date;
-            MessageBox.Show(new_med.refill_date);
 
             new_meds_list.Add(new_med);
             Meds.Items.Add(new_med);
@@ -155,6 +168,100 @@ namespace DoctorHelper
             med_name.Text = "";
             dosage_textbox.Text = "";
             date_selected.SelectedDate = null;
-        }//adds medications to the display list
+        }
+
+        private void create_files() //creates the files needed that store the doctors, family members, and appointments
+        {
+            if (!File.Exists(@"doctors.txt"))
+                File.Create(@"doctors.txt").Close();
+            if (!File.Exists(@"family.txt"))
+                File.Create(@"family.txt").Close();
+            if (!File.Exists(@"appoinments.txt"))
+                File.Create(@"appointments.txt").Close();
+        }
+
+        private void save_family_to_file() //saves the family members to a file
+        {
+            using (System.IO.StreamWriter myFile = new System.IO.StreamWriter(@"C:\Users\Fate\Desktop\Programs\Visual Studio\DoctorHelper\DoctorHelper\bin\Debug\family.txt"))
+            {
+                foreach (var Family in members)
+                {
+                    myFile.WriteLine(Family.name);
+
+                    foreach (var Medications in Family.meds)
+                    {
+                        myFile.WriteLine("=" + Medications.name + " " + Medications.dosage + " " + Medications.refill_date); //medications are stored with a "-" so when reading in a file, use "while(myFile.ReadLine.Contains("-")" or something
+                    }
+
+                    foreach (var Doctors in Family.doctors) //same as medicaitons except stored with a "+"
+                    {
+                        myFile.WriteLine("+" + Doctors.name + " " + Doctors.office);
+                    }
+                }
+            }
+        }
+
+        private void open_family_file() //opens the file of family members
+        {
+            using (var myFile = new System.IO.StreamReader(@"C:\Users\Fate\Desktop\Programs\Visual Studio\DoctorHelper\DoctorHelper\bin\Debug\family.txt"))
+            {
+                string line = myFile.ReadLine();
+
+                while(line != null)
+                {
+                    fam = new Family();
+                    fam.name = line;
+                    line = myFile.ReadLine();
+
+                    while(line != null && line.Contains("=") != false)
+                    {
+                        meds = seperate_meds(line);
+                        fam.meds.Add(meds);
+                        fam.display_meds = fam.display_meds + meds.name + ", ";
+                        line = myFile.ReadLine();
+                    }
+
+                    while(line != null && line.Contains("+") != false)
+                    {
+                        doc = seperate_doctors(line);
+                        fam.doctors.Add(doc);
+                        fam.display_doctors = fam.display_doctors + doc.name + ", ";
+                        line = myFile.ReadLine();
+                    }
+
+                    members.Add(fam);
+                    Family_ListBox.Items.Add(fam);
+                }
+                myFile.Close();
+            }
+        }
+
+        private Medications seperate_meds(string line) //seperates the string of medicine into objects when being read in from a file
+        {
+            Medications medicine = new Medications();
+
+            line = line.Remove(0, 1);
+            string[] split_meds = line.Split(' ');
+
+            medicine.name = split_meds[0];
+            medicine.dosage = split_meds[1];
+            medicine.refill_date = split_meds[2];
+
+            return medicine;
+        }
+
+        private Doctors seperate_doctors(string line) //seperates the string of doctors when read in
+        {
+            Doctors doctor = new Doctors();
+
+            line = line.Remove(0, 1);
+            string[] split_doctors = line.Split(' ');
+
+            doctor.name = split_doctors[0];
+            doctor.office = split_doctors[1];
+            doctor.phone = split_doctors[2];
+
+            return doctor;
+        }
     }
 }

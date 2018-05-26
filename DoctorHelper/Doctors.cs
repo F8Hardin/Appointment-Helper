@@ -8,8 +8,8 @@ namespace DoctorHelper
 {
     class Doctors
     {
-        public List<Family> patients;
         public string name { get; set; }
         public string office { get; set; }
+        public string phone { get; set; }
     }
 }
