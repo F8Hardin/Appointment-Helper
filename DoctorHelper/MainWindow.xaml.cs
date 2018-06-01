@@ -35,6 +35,9 @@ namespace DoctorHelper
             create_files();
             open_family_file();
 
+            remove_doctor.Visibility = Visibility.Collapsed;
+            remove_meds.Visibility = Visibility.Collapsed;
+
             Doctors doc = new Doctors();
             doc.name = "Who";
             doc.office = "TARDIS";
@@ -48,7 +51,7 @@ namespace DoctorHelper
 
         }
 
-        public void time_box_setup() //set up combo boxes for time
+        public void time_box_setup() //set up combo boxes for time in the appoinments tab
         {
             Hour_Box.SelectedIndex = 0;
             Minute_Box.SelectedIndex = 0;
@@ -117,6 +120,7 @@ namespace DoctorHelper
             selected_doctors.Items.Clear();
             fam_name.Text = "";
             save_family_to_file();
+            add_family.Content = "Add Family Member";
         }
 
         private void Select_Doctor_Click(object sender, RoutedEventArgs e) //when clicked, the Doctor from doctors_to_select selected is added to selected_doctors that will be part of that family member's list of doctors
@@ -195,7 +199,7 @@ namespace DoctorHelper
 
                     foreach (var Doctors in Family.doctors) //same as medicaitons except stored with a "+"
                     {
-                        myFile.WriteLine("+" + Doctors.name + " " + Doctors.office);
+                        myFile.WriteLine("+" + Doctors.name + " " + Doctors.office + " " + Doctors.phone);
                     }
                 }
             }
@@ -262,6 +266,92 @@ namespace DoctorHelper
             doctor.phone = split_doctors[2];
 
             return doctor;
+        }
+
+        private void Family_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            edit_family.Content = "Edit Family Member";
+            remove_family.Content = "Remove Family Member";
+        }
+
+        private void edit_family_Click(object sender, RoutedEventArgs e) //allows the user to edit a selected family member
+        {
+            if(edit_family.Content != "Edit Family Member")
+            {
+                MessageBox.Show("No family member selected.");
+                return;
+            }
+
+            MessageBox.Show("Remember to save changes.");
+
+            Meds.SelectedIndex = -1;
+            selected_doctors.SelectedIndex = -1;
+
+            add_family.Content = "Save Changes";
+            fam = (Family)Family_ListBox.SelectedItem;
+            members.Remove(fam);
+            Family_ListBox.Items.Remove(fam);
+
+            fam_name.Text = fam.name;
+
+            foreach(var Doctor in fam.doctors)
+            {
+                selected_doctors.Items.Add(Doctor);
+            }
+
+            foreach(var Medications in fam.meds)
+            {
+                Meds.Items.Add(Medications);
+            }
+        }
+
+        private void remove_family_Click(object sender, RoutedEventArgs e) //removes the selected family member from the program
+        {
+            if(remove_family.Content != "Remove Family Member")
+            {
+                MessageBox.Show("No family member selected.");
+                return;
+            }
+
+            Family member = (Family)Family_ListBox.SelectedItem;
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to remove " + member.name + "?", "Warning", MessageBoxButton.YesNo);
+
+            if(result == MessageBoxResult.Yes)
+            {
+                Family_ListBox.Items.Remove(member);
+                members.Remove(member);
+            }
+
+            else
+            {
+                return;
+            }
+
+            save_family_to_file();
+        }
+
+        private void remove_meds_Click(object sender, RoutedEventArgs e) //removes the selected medication from the medications box for adding family members
+        {
+            meds = (Medications)Meds.SelectedItem;
+            Meds.Items.Remove(meds);
+            remove_meds.Visibility = Visibility.Collapsed;
+        }
+
+        private void Meds_SelectionChanged(object sender, SelectionChangedEventArgs e) //makes the "Remove Medication" button pop up when a medication is selected
+        {
+            remove_meds.Visibility = Visibility.Visible;
+        }
+
+        private void selected_doctors_SelectionChanged(object sender, SelectionChangedEventArgs e) //makes the "Remove Doctor" button pop up when a doctor is selected
+        {
+            remove_doctor.Visibility = Visibility.Visible;
+        }
+
+        private void remove_doctor_Click(object sender, RoutedEventArgs e) //removes a doctor from the box for adding family members
+        {
+            doc = (Doctors)selected_doctors.SelectedItem;
+            selected_doctors.Items.Remove(doc);
+            remove_doctor.Visibility = Visibility.Collapsed;
         }
     }
 }
