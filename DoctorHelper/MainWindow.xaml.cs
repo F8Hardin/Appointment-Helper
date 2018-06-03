@@ -22,6 +22,7 @@ namespace DoctorHelper
     {
         List<Family> members = new List<Family>();
         List<Medications> new_meds_list = new List<Medications>();
+        List<Doctors> Our_doctors = new List<Doctors>();
 
         Family fam;
         Doctors doc;
@@ -34,21 +35,10 @@ namespace DoctorHelper
             dr_finder.Navigate("https://doctor.webmd.com/");
             create_files();
             open_family_file();
+            open_doctors_file();
 
             remove_doctor.Visibility = Visibility.Collapsed;
             remove_meds.Visibility = Visibility.Collapsed;
-
-            Doctors doc = new Doctors();
-            doc.name = "Who";
-            doc.office = "TARDIS";
-            doc.phone = "332-432-5522";
-            doctors_to_select.Items.Add(doc);
-            Doctors doc2 = new Doctors();
-            doc2.name = "Thomas";
-            doc2.office = "Office";
-            doc2.phone = "382-323-2331";
-            doctors_to_select.Items.Add(doc2);
-
         }
 
         public void time_box_setup() //set up combo boxes for time in the appoinments tab
@@ -186,6 +176,8 @@ namespace DoctorHelper
 
         private void save_family_to_file() //saves the family members to a file
         {
+            members.Sort((x, y) => x.name.CompareTo(y.name));
+
             using (System.IO.StreamWriter myFile = new System.IO.StreamWriter(@"C:\Users\Fate\Desktop\Programs\Visual Studio\DoctorHelper\DoctorHelper\bin\Debug\family.txt"))
             {
                 foreach (var Family in members)
@@ -205,7 +197,7 @@ namespace DoctorHelper
             }
         }
 
-        private void open_family_file() //opens the file of family members
+        private void open_family_file() //opens the file of family members and adds them to the combo box in appoinments tab and the Listbox in family tab
         {
             using (var myFile = new System.IO.StreamReader(@"C:\Users\Fate\Desktop\Programs\Visual Studio\DoctorHelper\DoctorHelper\bin\Debug\family.txt"))
             {
@@ -352,6 +344,72 @@ namespace DoctorHelper
             doc = (Doctors)selected_doctors.SelectedItem;
             selected_doctors.Items.Remove(doc);
             remove_doctor.Visibility = Visibility.Collapsed;
+        }
+
+        private void open_doctors_file() //opens the file containing all of the doctors and adds the doctors to the combo box in family and appointments
+        {
+            using (var MyFile = new System.IO.StreamReader(@"C:\Users\Fate\Desktop\Programs\Visual Studio\DoctorHelper\DoctorHelper\bin\Debug\doctors.txt"))
+            {
+                string line;
+
+                while ((line = MyFile.ReadLine()) != null)
+                {
+                    doc = new Doctors();
+
+                    doc.name = line;
+                    line = MyFile.ReadLine();
+                    doc.office = line;
+                    line = MyFile.ReadLine();
+                    doc.phone = line;
+
+                    Our_doctors.Add(doc);
+                    doctors_to_select.Items.Add(doc);
+                    doctor_info_ListView.Items.Add(doc);
+                }
+            }
+        }
+
+        private void save_doctors_file() //saves doctors to the file
+        {
+            Our_doctors.Sort((x, y) => x.name.CompareTo(y.name));
+
+            using (var MyFile = new System.IO.StreamWriter(@"C:\Users\Fate\Desktop\Programs\Visual Studio\DoctorHelper\DoctorHelper\bin\Debug\doctors.txt"))
+            {
+                foreach(var Doctor in Our_doctors)
+                {
+                    MyFile.WriteLine(Doctor.name);
+                    MyFile.WriteLine(Doctor.office);
+                    MyFile.WriteLine(Doctor.phone);
+                }
+            }
+        }
+
+        private void Add_doctor_click(object sender, RoutedEventArgs e) //adds the doctor
+        {
+            doc = new Doctors();
+
+            if(doctor_name_box.Text == "")
+            {
+                MessageBox.Show("No name given.", "Error");
+                return;
+            }
+            if(doctor_office_box.Text == "")
+                doctor_office_box.Text = "-";
+            if (doctor_phone_box.Text == "")
+                doctor_phone_box.Text = "-";
+
+            doc.name = doctor_name_box.Text;
+            doc.phone = doctor_phone_box.Text;
+            doc.office = doctor_office_box.Text;
+
+            doctor_name_box.Text = "";
+            doctor_phone_box.Text = "";
+            doctor_office_box.Text = "";
+
+            doctor_info_ListView.Items.Add(doc);
+            doctors_to_select.Items.Add(doc);
+            Our_doctors.Add(doc);
+            save_doctors_file();
         }
     }
 }

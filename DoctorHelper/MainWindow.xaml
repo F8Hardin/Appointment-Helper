@@ -35,23 +35,24 @@
             </TabItem>
             <TabItem Header="Doctors" Background="LightBlue" FontSize="15">
                 <Grid Background="LightBlue">
-                    <ListView HorizontalAlignment="Left" Height="587" Margin="10,45,0,0" VerticalAlignment="Top" Width="600">
+                    <ListView x:Name="doctor_info_ListView" HorizontalAlignment="Left" Height="587" Margin="10,45,0,0" VerticalAlignment="Top" Width="600" FontSize="20">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Name" Width="200"/>
-                                <GridViewColumn Header="Office" Width="200"/>
-                                <GridViewColumn Header="Phone Number" Width="200"/>
+                                <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding name}"/>
+                                <GridViewColumn Header="Office" Width="200" DisplayMemberBinding="{Binding office}"/>
+                                <GridViewColumn Header="Phone Number" Width="200" DisplayMemberBinding="{Binding phone}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
                     <Button FontSize="20" Content="Edit Doctor" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="135"/>
                     <Button FontSize="20" Content="Delete Doctor" HorizontalAlignment="Left" Margin="150,10,0,0" VerticalAlignment="Top" Width="135"/>
-                    <TextBlock FontSize="25" HorizontalAlignment="Left" Margin="615,48,0,0" TextWrapping="Wrap" Text="Name:" VerticalAlignment="Top"/>
-                    <TextBlock FontSize="25" HorizontalAlignment="Left" Margin="615,93,0,0" TextWrapping="Wrap" Text="Office:" VerticalAlignment="Top"/>
-                    <TextBlock FontSize="25" HorizontalAlignment="Left" Margin="616,133,0,0" TextWrapping="Wrap" Text="Phone Number:" VerticalAlignment="Top"/>
-                    <TextBox FontSize="25" HorizontalAlignment="Left" Height="35" Margin="691,53,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="140"/>
-                    <TextBox FontSize="25" HorizontalAlignment="Left" Height="35" Margin="691,93,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="140"/>
-                    <TextBox FontSize="25" HorizontalAlignment="Left" Height="35" Margin="794,133,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="140"/>
+                    <TextBlock FontSize="35" HorizontalAlignment="Left" Margin="615,48,0,0" TextWrapping="Wrap" Text="Name:" VerticalAlignment="Top"/>
+                    <TextBlock FontSize="35" HorizontalAlignment="Left" Margin="615,154,0,0" TextWrapping="Wrap" Text="Office:" VerticalAlignment="Top" RenderTransformOrigin="0.628,2.744"/>
+                    <TextBlock FontSize="35" HorizontalAlignment="Left" Margin="615,261,0,0" TextWrapping="Wrap" Text="Phone Number:" VerticalAlignment="Top"/>
+                    <TextBox x:Name="doctor_name_box" FontSize="35" HorizontalAlignment="Left" Height="50" Margin="615,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+                    <TextBox x:Name="doctor_office_box" FontSize="35" HorizontalAlignment="Left" Height="50" Margin="615,206,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200"/>
+                    <TextBox x:Name="doctor_phone_box" FontSize="35" HorizontalAlignment="Left" Height="50" Margin="615,313,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250"/>
+                    <Button FontSize="30" Content="Add Doctor" HorizontalAlignment="Left" Margin="615,368,0,0" VerticalAlignment="Top" Width="200" Click="Add_doctor_click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Appointments" Background="LightCyan" FontSize="15">
