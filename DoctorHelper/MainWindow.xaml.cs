@@ -191,7 +191,7 @@ namespace DoctorHelper
 
                     foreach (var Doctors in Family.doctors) //same as medicaitons except stored with a "+"
                     {
-                        myFile.WriteLine("+" + Doctors.name + " " + Doctors.office + " " + Doctors.phone);
+                        myFile.WriteLine("+" + Doctors.name);
                     }
                 }
             }
@@ -219,7 +219,8 @@ namespace DoctorHelper
 
                     while(line != null && line.Contains("+") != false)
                     {
-                        doc = seperate_doctors(line);
+                        doc = new Doctors();
+                        doc.name = line.Remove(0, 1);
                         fam.doctors.Add(doc);
                         fam.display_doctors = fam.display_doctors + doc.name + ", ";
                         line = myFile.ReadLine();
@@ -244,20 +245,6 @@ namespace DoctorHelper
             medicine.refill_date = split_meds[2];
 
             return medicine;
-        }
-
-        private Doctors seperate_doctors(string line) //seperates the string of doctors when read in
-        {
-            Doctors doctor = new Doctors();
-
-            line = line.Remove(0, 1);
-            string[] split_doctors = line.Split(' ');
-
-            doctor.name = split_doctors[0];
-            doctor.office = split_doctors[1];
-            doctor.phone = split_doctors[2];
-
-            return doctor;
         }
 
         private void Family_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -299,7 +286,7 @@ namespace DoctorHelper
 
         private void remove_family_Click(object sender, RoutedEventArgs e) //removes the selected family member from the program
         {
-            if(remove_family.Content != "Remove Family Member")
+            if(remove_family.Content != "Remove Family Member" && Family_ListBox.SelectedItems.Count != 0)
             {
                 MessageBox.Show("No family member selected.");
                 return;
@@ -410,6 +397,72 @@ namespace DoctorHelper
             doctors_to_select.Items.Add(doc);
             Our_doctors.Add(doc);
             save_doctors_file();
+        }
+
+        private void edit_doctor_Click(object sender, RoutedEventArgs e) //moves the selected doctor's info into the textboxes to be edited
+        {
+            if(doctor_info_ListView.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("No doctor selected to edit", "Warning");
+                return;
+            }
+
+            doc = (Doctors)doctor_info_ListView.SelectedItem;
+
+            doctor_info_ListView.Items.Remove(doc);
+            Our_doctors.Remove(doc);
+            doctors_to_select.Items.Remove(doc);
+
+            MessageBox.Show("Remember to save changes.", "Warning");
+
+            doctor_name_box.Text = doc.name;
+            doctor_office_box.Text = doc.office;
+            doctor_phone_box.Text = doc.phone;
+            doc = new Doctors();
+        }
+
+        private void delete_doctor_Click(object sender, RoutedEventArgs e) //deletes a doctor from the system
+        {
+            if(doctor_info_ListView.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("No doctor selected.", "Warning");
+                return;
+            }
+
+            doc = (Doctors)doctor_info_ListView.SelectedItem;
+
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to remove " + doc.name + "?", "Warning", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.No)
+            {
+                return;
+            }
+
+            Our_doctors.Remove(doc);
+            doctor_info_ListView.Items.Remove(doc);
+            doctors_to_select.Items.Remove(doc);
+            search_family(doc);
+            save_doctors_file();
+        }
+
+        private void sort_doctor_Click(object sender, RoutedEventArgs e) //sorts the doctors listview alphabetically on click
+        {
+            doctor_info_ListView.Items.Clear();
+            open_doctors_file();
+        }
+
+        private void search_family(Doctors doctor)
+        {
+
+            foreach(var Family in members)
+            {
+                if (Family.doctors.Contains(doctor))
+                {
+                    MessageBox.Show(Family.name);
+                    Family.doctors.Remove(doctor);
+                    doctor.name += ", ";
+                    Family.display_doctors.Replace(doctor.name, "");
+                }
+            }
         }
     }
 }
