@@ -450,19 +450,25 @@ namespace DoctorHelper
             open_doctors_file();
         }
 
-        private void search_family(Doctors doctor)
+        private void search_family(Doctors doctor) //when a doctor is deleted this should remove the doctor from the family members it is associated with
         {
+            foreach(var Family in members)
+            {
+                if (Family.doctors.Contains(doctor) == true)
+                {
+                    Family.doctors.Remove(doctor);
+                    doctor.name += ", ";
+                    Family.display_doctors = Family.display_doctors.Replace(doctor.name, "");
+                }
+            }
+
+            Family_ListBox.Items.Clear();
 
             foreach(var Family in members)
             {
-                if (Family.doctors.Contains(doctor))
-                {
-                    MessageBox.Show(Family.name);
-                    Family.doctors.Remove(doctor);
-                    doctor.name += ", ";
-                    Family.display_doctors.Replace(doctor.name, "");
-                }
+                Family_ListBox.Items.Add(Family);
             }
+
         }
     }
 }
